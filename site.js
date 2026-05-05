@@ -1,5 +1,7 @@
 (() => {
   const STORAGE_KEY = "intusketch_lang";
+  /** Set when the visitor picks a language from the dropdown — then we keep it until they clear site data. */
+  const MANUAL_KEY = "intusketch_lang_manual";
   const LOCALES = ["en", "ru", "de", "es", "zh", "ko"];
 
   const normalizeLang = (raw) => {
@@ -13,15 +15,34 @@
     return null;
   };
 
+  /** First supported match from the browser / OS preference list; otherwise null (caller falls back to en). */
+  const detectSystemLang = () => {
+    const candidates = [];
+    if (Array.isArray(navigator.languages) && navigator.languages.length) {
+      candidates.push(...navigator.languages);
+    }
+    if (navigator.language) candidates.push(navigator.language);
+    if (navigator.userLanguage) candidates.push(navigator.userLanguage);
+    for (const raw of candidates) {
+      const n = normalizeLang(raw);
+      if (n) return n;
+    }
+    return null;
+  };
+
   const htmlLang = (code) => (code === "zh" ? "zh-Hans" : code);
 
   const params = new URLSearchParams(window.location.search);
-  let currentLang =
-    normalizeLang(params.get("lang")) ||
-    normalizeLang(window.localStorage.getItem(STORAGE_KEY)) ||
-    normalizeLang(navigator.language || navigator.userLanguage) ||
-    "en";
-  window.localStorage.setItem(STORAGE_KEY, currentLang);
+  const urlLang = normalizeLang(params.get("lang"));
+
+  let currentLang;
+  if (urlLang) {
+    currentLang = urlLang;
+  } else if (window.localStorage.getItem(MANUAL_KEY) === "1") {
+    currentLang = normalizeLang(window.localStorage.getItem(STORAGE_KEY)) || "en";
+  } else {
+    currentLang = detectSystemLang() || "en";
+  }
 
   const dict = () => {
     const root = window.INTUSKETCH_I18N || {};
@@ -150,6 +171,7 @@
       if (!next) return;
       currentLang = next;
       window.localStorage.setItem(STORAGE_KEY, currentLang);
+      window.localStorage.setItem(MANUAL_KEY, "1");
       syncLangToUrl();
       applyTranslations();
       fillLangSelect();
