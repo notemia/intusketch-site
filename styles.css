@@ -1182,7 +1182,8 @@ body:not(.is-landing) .site-header {
 
 @media (max-width: 640px) {
   :root {
-    --header-height: 3.5rem;
+    /* Two-row header: brand row + nav row; keep in sync with .site-header__inner */
+    --header-height: 7.25rem;
   }
 
   .brand__icon {
@@ -1194,37 +1195,55 @@ body:not(.is-landing) .site-header {
     font-size: 1.4375rem;
   }
 
+  .site-header {
+    align-items: stretch;
+  }
+
   .site-header__inner {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-sm);
+    align-content: flex-start;
+    align-self: stretch;
+    row-gap: 0.5rem;
+    column-gap: var(--space-sm);
+    padding-top: 0.25rem;
+    padding-bottom: 0.35rem;
     padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
     padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
   }
 
+  /* Full-width brand row so nav is never drawn under the logo */
   .brand {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
     flex-shrink: 0;
   }
 
   .site-header__cluster {
-    flex: 1 1 auto;
+    flex: 1 1 100%;
+    width: 100%;
     min-width: 0;
     flex-wrap: nowrap;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    align-items: center;
     gap: var(--space-sm);
   }
 
   .nav {
-    flex-wrap: nowrap;
+    flex: 1 1 auto;
+    min-width: 0;
     flex-shrink: 1;
+    flex-wrap: nowrap;
     gap: var(--space-sm);
-    max-width: 100%;
+    max-width: none;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
-    mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 8px), transparent);
+    mask-image: linear-gradient(to right, transparent, black 6px, black calc(100% - 6px), transparent);
+    padding-block: 2px;
   }
 
   .nav::-webkit-scrollbar {
@@ -1241,6 +1260,7 @@ body:not(.is-landing) .site-header {
     flex-shrink: 0;
     font-size: 0.75rem;
     padding: 0.35rem 1.65rem 0.35rem 0.65rem;
+    margin-left: auto;
   }
 
   /* Readable logo + nav over bright hero (safe-area padding on .site-header) */
