@@ -844,8 +844,8 @@ html[lang="ru"] .hero__lede {
   min-height: 280px;
   padding: var(--space-xl);
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
 }
 
 .moment-orb {
@@ -856,40 +856,6 @@ html[lang="ru"] .hero__lede {
     radial-gradient(circle at 35% 30%, var(--accent-soft), transparent 50%),
     radial-gradient(circle at 70% 60%, rgba(180, 200, 190, 0.12), transparent 50%);
   animation: orbShift 12s ease-in-out infinite alternate;
-}
-
-.moment-stack {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  align-items: flex-end;
-}
-
-.moment-chip {
-  padding: 0.5rem 0.875rem;
-  border-radius: var(--radius-full);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(8px);
-  animation: chipIn 0.6s var(--ease-out) backwards;
-}
-
-.moment-chip:nth-child(1) { animation-delay: 0.1s; }
-.moment-chip:nth-child(2) { animation-delay: 0.2s; }
-.moment-chip:nth-child(3) { animation-delay: 0.3s; }
-
-.moment-chip--alt {
-  border-color: rgba(180, 200, 190, 0.3);
-}
-
-.moment-chip--ghost {
-  color: var(--accent);
-  border-color: var(--accent-soft);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1147,17 +1113,6 @@ body:not(.is-landing) .site-header {
   }
   to {
     transform: translate(-5%, 4%) scale(1.06);
-  }
-}
-
-@keyframes chipIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
