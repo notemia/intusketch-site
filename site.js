@@ -226,7 +226,7 @@
   observeReveal(strayStagger, { threshold: 0.18, rootMargin: "0px 0px -6%" });
 
   const dual = document.querySelector("[data-dual-canvas]");
-  if (dual && window.matchMedia("(pointer: fine)").matches) {
+  if (dual && window.matchMedia("(pointer: fine) and (min-width: 900px)").matches) {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduceMotion) {
       window.addEventListener(
